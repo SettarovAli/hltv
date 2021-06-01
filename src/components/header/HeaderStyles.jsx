@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderConatiner = styled.div`
@@ -17,7 +18,7 @@ export const NavContainer = styled.nav`
   font-size: 14px;
 `;
 
-export const NavLink = styled.a`
+export const NavLink = styled(Link)`
   padding: 0 11px;
   height: 46px;
   line-height: 46px;
@@ -25,6 +26,17 @@ export const NavLink = styled.a`
   border-right: 1px solid hsla(0, 0%, 80%, 0.65);
   text-align: center;
   color: var(--dark-text);
+
+  &:hover {
+    background-color: #ededef;
+  }
+
+  &:last-child {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    border-left: 1px solid hsla(0, 0%, 80%, 0.65);
+  }
 
   &.small-logo {
     flex: 0 0 auto;

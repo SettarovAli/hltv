@@ -4,11 +4,11 @@ import Flag from "../flag/Flag";
 
 import { TeamRowContainer } from "./TeamRowStyles";
 
-const TeamRow = ({ countryCode, teamName }) => {
+const TeamRow = ({ country, name }) => {
   return (
     <TeamRowContainer>
-      <Flag code={countryCode} />
-      <span>{teamName}</span>
+      <Flag code={country} />
+      <span>{name}</span>
     </TeamRowContainer>
   );
 };

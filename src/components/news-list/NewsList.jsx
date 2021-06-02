@@ -11,6 +11,7 @@ const NewsListContainer = styled.div`
 const NewsList = () => {
   return (
     <NewsListContainer>
+      <h2 className="column-heading">News</h2>
       <NewsItem />
       <NewsItem />
       <NewsItem />

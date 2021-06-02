@@ -32,4 +32,14 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     color: #2d6da3;
   }
+
+  .column-heading {
+    background-color: #2d6da3;
+    color: #fff;
+    padding: 5px;
+    margin-bottom: 0;
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
 `;

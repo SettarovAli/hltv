@@ -27,3 +27,8 @@ export const Time = styled.div`
   color: #353535;
   font-size: 11px;
 `;
+
+export const ScoreContainer = styled.div`
+  flex: 0 0 auto;
+  text-align: right;
+`;

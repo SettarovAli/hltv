@@ -8,14 +8,7 @@ const MatchesList = ({ matches }) => {
     <div>
       <h2 className="column-heading">Matches</h2>
       {matches.future.map((match, i) => {
-        return (
-          <MatchItem
-            key={i}
-            team1={match.team1}
-            team2={match.team2}
-            date={match.date}
-          />
-        );
+        return <MatchItem key={i} match={match} />;
       })}
     </div>
   );

@@ -4,14 +4,17 @@ const INITIAL_STATE = {
   natus_vincere: {
     name: "Natus Vincere",
     country: "UA",
+    id: 1,
   },
   astralis: {
     name: "Astralis",
     country: "DK",
+    id: 2,
   },
   nip: {
     name: "NIP",
     country: "SE",
+    id: 3,
   },
 };
 

@@ -1,15 +1,35 @@
 import React from "react";
+import { connect } from "react-redux";
+import { Route } from "react-router-dom";
 
+import TouchIconComponent from "../touch-icon-component/TouchIconComponent";
+import DeleteIcon from "@material-ui/icons/Delete";
 import TeamRow from "../team-row/TeamRow";
+
+import { removeMatch } from "../../redux/matches/matchesActions";
 
 import {
   MatchItemContainer,
   TeamsContainer,
   Time,
-  ScoreContainer,
+  // ScoreContainer,
 } from "./MatchItemStyles";
 
-const MatchItem = ({ team1, team2, date, time }) => {
+const DeleteMatch = ({ match, removeMatch }) => {
+  return (
+    <div onClick={() => removeMatch(match)}>
+      <TouchIconComponent
+        Icon={DeleteIcon}
+        fontSize={"default"}
+        color={"error"}
+      />
+    </div>
+  );
+};
+
+const MatchItem = ({ match, removeMatch }) => {
+  const { team1, team2, date } = match;
+
   const generateTime = (data) => {
     const checkTime = (i) => {
       if (i < 10) {
@@ -34,6 +54,14 @@ const MatchItem = ({ team1, team2, date, time }) => {
         <TeamRow country={team2.country} name={team2.name} />
       </TeamsContainer>
       <Time>{generateTime(date)}</Time>
+
+      <Route
+        path="/admin"
+        render={() => {
+          return <DeleteMatch match={match} removeMatch={removeMatch} />;
+        }}
+      />
+
       {/* <ScoreContainer>
         <div>14</div>
         <div>16</div>
@@ -42,4 +70,4 @@ const MatchItem = ({ team1, team2, date, time }) => {
   );
 };
 
-export default MatchItem;
+export default connect(null, { removeMatch })(MatchItem);

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import MainContentLogo from "../main-content-logo/MainContentLogo";
 
@@ -11,7 +12,10 @@ const MainContent = ({ children }) => {
   return (
     <MainContentContainer>
       <MainContentContainerWidth>
-        <MainContentLogo />
+        <Link to="/">
+          <MainContentLogo />
+        </Link>
+
         {children}
       </MainContentContainerWidth>
     </MainContentContainer>

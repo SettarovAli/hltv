@@ -1,40 +1,23 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import styled from "styled-components";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-
 import Button from "@material-ui/core/Button";
-import Alert from "@material-ui/lab/Alert";
 
 import TeamOptions from "../team-options/TeamOptions";
 
 import { selectTeamsForPreview } from "../../redux/teams/teamsSelectors";
 import { addMatch } from "../../redux/matches/matchesActions";
 
-const AddMatchContainer = styled.div`
-  padding: 15px;
-  background-color: white;
-`;
-
-const AddMatchContainerInner = styled.div`
-  display: inline-block;
-`;
-
-const FormContainer = styled.form`
-  display: flex;
-
-  & > * {
-    margin-right: 10px;
-  }
-`;
-
-const AlertContainer = styled(Alert)`
-  margin-top: 10px;
-`;
+import {
+  AddMatchContainer,
+  AddMatchContainerInner,
+  FormContainer,
+  AlertContainer,
+} from "./AddMatchStyles";
 
 const AddMatch = ({ teams, addMatch }) => {
   const [team1, setTeam1] = useState("");
@@ -42,6 +25,10 @@ const AddMatch = ({ teams, addMatch }) => {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState(null);
   const [alert, setAlert] = useState(null);
+
+  const generateId = () => {
+    return "_" + Math.random().toString(36).substr(2, 9);
+  };
 
   const calculateDate = (date, time) => {
     const [y, m, d] = date.split("-");
@@ -58,12 +45,11 @@ const AddMatch = ({ teams, addMatch }) => {
         team1: teams.find((team) => team.name === team1),
         team2: teams.find((team) => team.name === team2),
         date: calculateDate(date, time),
+        id: generateId(),
       });
       setAlert(null);
     }
   };
-
-  console.log(team1, team2);
 
   return (
     <AddMatchContainer>
@@ -109,7 +95,7 @@ const AddMatch = ({ teams, addMatch }) => {
           </Button>
         </FormContainer>
         {alert ? (
-          <AlertContainer severity="error">Incorret inputs</AlertContainer>
+          <AlertContainer severity="error">Incorrect inputs</AlertContainer>
         ) : null}
       </AddMatchContainerInner>
     </AddMatchContainer>

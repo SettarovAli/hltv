@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const MatchItemContainer = styled.div`
   display: flex;
+  align-items: center;
   border-bottom: 1px solid #ccc;
   background-color: var(--white);
   padding: 3px 5px;

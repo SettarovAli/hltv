@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+
+import // addCollectionAndDocuments,
+"../firebase/firebaseUtils";
+import { selectTeamsForPreview } from "../redux/teams/teamsSelectors";
 
 import Header from "./header/Header";
 import MainContent from "./main-content/MainContent";
@@ -9,9 +15,16 @@ import Results from "../pages/results/Results";
 import Admin from "../pages/admin/Admin";
 import Footer from "./footer/Footer";
 
+import { fetchTeamsStart } from "../redux/teams/teamsActions";
+
 import { GlobalStyle } from "../GlobalStyles";
 
-const App = () => {
+const App = ({ teams, fetchTeamsStart }) => {
+  useEffect(() => {
+    // addCollectionAndDocuments("teams", teams);
+    fetchTeamsStart();
+  }, []);
+
   return (
     <>
       <GlobalStyle />
@@ -29,4 +42,8 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  teams: selectTeamsForPreview,
+});
+
+export default connect(mapStateToProps, { fetchTeamsStart })(App);

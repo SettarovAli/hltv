@@ -1,27 +1,30 @@
 import TeamsActionTypes from "./teamsTypes";
 
 const INITIAL_STATE = {
-  natus_vincere: {
-    name: "Natus Vincere",
-    country: "UA",
-    id: 1,
-  },
-  astralis: {
-    name: "Astralis",
-    country: "DK",
-    id: 2,
-  },
-  nip: {
-    name: "NIP",
-    country: "SE",
-    id: 3,
-  },
+  isFetching: false,
+  teams: null,
+  errorMessage: "",
 };
 
 const teamsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case TeamsActionTypes.FETCH_TEAM:
-      return { ...state };
+    case TeamsActionTypes.FETCH_TEAMS_START:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case TeamsActionTypes.FETCH_TEAMS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        teams: action.payload,
+      };
+    case TeamsActionTypes.FETCH_TEAMS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.payload,
+      };
     default:
       return state;
   }

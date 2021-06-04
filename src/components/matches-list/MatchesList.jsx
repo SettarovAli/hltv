@@ -7,9 +7,13 @@ const MatchesList = ({ matches }) => {
   return (
     <div>
       <h2 className="column-heading">Matches</h2>
-      {matches.future.map((match, i) => {
-        return <MatchItem key={i} match={match} />;
-      })}
+      {matches.future.length ? (
+        matches.future.map((match, i) => {
+          return <MatchItem key={i} match={match} />;
+        })
+      ) : (
+        <div>There are no matches</div>
+      )}
     </div>
   );
 };

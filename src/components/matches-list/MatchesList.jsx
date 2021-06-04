@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import MatchItem from "../match-item/MatchItem";
+import { MatchItemContainer } from "../match-item/MatchItemStyles";
 
 const MatchesList = ({ matches }) => {
   return (
@@ -12,7 +13,7 @@ const MatchesList = ({ matches }) => {
           return <MatchItem key={i} match={match} />;
         })
       ) : (
-        <div>There are no matches</div>
+        <MatchItemContainer>There are no matches</MatchItemContainer>
       )}
     </div>
   );

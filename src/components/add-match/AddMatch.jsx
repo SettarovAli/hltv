@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import toast from "react-hot-toast";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -22,8 +23,8 @@ import {
 const AddMatch = ({ teams, addMatch }) => {
   const [team1, setTeam1] = useState("");
   const [team2, setTeam2] = useState("");
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [alert, setAlert] = useState(null);
 
   const generateId = () => {
@@ -48,6 +49,11 @@ const AddMatch = ({ teams, addMatch }) => {
         id: generateId(),
       });
       setAlert(null);
+      toast.success(`Match ${team1} - ${team2} successfuly added`);
+      setTeam1("");
+      setTeam2("");
+      setDate("");
+      setTime("");
     }
   };
 
@@ -56,7 +62,10 @@ const AddMatch = ({ teams, addMatch }) => {
       <AddMatchContainerInner>
         <h2>Add match</h2>
         <FormContainer onSubmit={handleSubmit}>
-          <FormControl style={{ marginRight: "10px" }} variant="outlined">
+          <FormControl
+            style={{ marginRight: "10px", minWidth: "100px" }}
+            variant="outlined"
+          >
             <InputLabel id="team-1">Team 1</InputLabel>
             <Select
               native
@@ -72,7 +81,10 @@ const AddMatch = ({ teams, addMatch }) => {
             </Select>
           </FormControl>
 
-          <FormControl style={{ marginRight: "10px" }} variant="outlined">
+          <FormControl
+            style={{ marginRight: "10px", minWidth: "100px" }}
+            variant="outlined"
+          >
             <InputLabel id="team-2">Team 2</InputLabel>
             <Select
               native
@@ -88,8 +100,16 @@ const AddMatch = ({ teams, addMatch }) => {
             </Select>
           </FormControl>
 
-          <input type="date" onChange={(e) => setDate(e.target.value)} />
-          <input type="time" onChange={(e) => setTime(e.target.value)} />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          />
           <Button type="submit" variant="contained" color="primary">
             Add match
           </Button>

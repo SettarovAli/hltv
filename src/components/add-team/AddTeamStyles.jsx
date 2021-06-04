@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Alert from "@material-ui/lab/Alert";
 
 export const AddTeamContainer = styled.div`
-  margin-top: 15px;
   padding: 15px;
   background-color: white;
 `;

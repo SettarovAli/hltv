@@ -21,4 +21,5 @@ export const FormContainer = styled.form`
 
 export const AlertContainer = styled(Alert)`
   margin-top: 10px;
+  font-size: 14px;
 `;

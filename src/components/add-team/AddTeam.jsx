@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import toast from "react-hot-toast";
 
 import { addNewTeam } from "../../firebase/firebaseUtils";
 import { fetchTeamsStart } from "../../redux/teams/teamsActions";
@@ -18,12 +19,22 @@ const AddTeam = ({ fetchTeamsStart }) => {
   const [team, setTeam] = useState("");
   const [country, setCountry] = useState("");
   const [id, setId] = useState("");
+  const [alert, setAlert] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newTeam = { name: team, country, id };
-    await addNewTeam(newTeam);
-    fetchTeamsStart();
+    if (!team || !country || !id) {
+      setAlert(true);
+    } else {
+      const newTeam = { name: team, country, id };
+      await addNewTeam(newTeam);
+      fetchTeamsStart();
+      setAlert(null);
+      toast.success(`Team ${team} successfuly added`);
+      setTeam("");
+      setCountry("");
+      setId("");
+    }
   };
 
   return (
@@ -60,7 +71,9 @@ const AddTeam = ({ fetchTeamsStart }) => {
           </Button>
         </FormContainer>
         {alert ? (
-          <AlertContainer severity="error">Incorrect inputs</AlertContainer>
+          <AlertContainer variant="filled" severity="error">
+            Incorrect inputs
+          </AlertContainer>
         ) : null}
       </AddTeamContainerInner>
     </AddTeamContainer>

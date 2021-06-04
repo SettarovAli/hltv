@@ -25,6 +25,11 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         isFetching: false,
         errorMessage: action.payload,
       };
+    case TeamsActionTypes.DELETE_TEAM_FAILURE:
+      return {
+        ...state,
+        errorMessage: action.payload,
+      };
     default:
       return state;
   }

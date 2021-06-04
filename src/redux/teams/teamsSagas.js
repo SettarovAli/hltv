@@ -6,7 +6,13 @@ import {
 
 import TeamsActionTypes from "./teamsTypes";
 
-import { fetchTeamsSuccess, fetchTeamsFailure } from "./teamsActions";
+import {
+  fetchTeamsStart,
+  fetchTeamsSuccess,
+  fetchTeamsFailure,
+  deleteTeamSuccess,
+  deleteTeamFailure,
+} from "./teamsActions";
 
 export function* fetchTeamsStartAsync() {
   try {
@@ -23,6 +29,20 @@ export function* watchFetchTeamsStart() {
   yield takeLatest(TeamsActionTypes.FETCH_TEAMS_START, fetchTeamsStartAsync);
 }
 
+export function* deleteTeam(action) {
+  try {
+    yield firestore.collection("teams").doc(action.payload).delete();
+    yield put(deleteTeamSuccess());
+    yield put(fetchTeamsStart());
+  } catch (error) {
+    yield put(deleteTeamFailure(error.message));
+  }
+}
+
+export function* watchDeleteTeam() {
+  yield takeLatest(TeamsActionTypes.DELETE_TEAM_START, deleteTeam);
+}
+
 export function* teamsSagas() {
-  yield all([call(watchFetchTeamsStart)]);
+  yield all([call(watchFetchTeamsStart), call(watchDeleteTeam)]);
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -45,6 +45,10 @@ const AddTeam = ({ fetchTeamsStart }) => {
   const [logoLink, setLogoLink] = useState("");
   const [alert, setAlert] = useState(null);
 
+  useEffect(() => {
+    setId(generateId());
+  }, []);
+
   const classes = useStyles();
   const storageRef = firebase.storage().ref();
   const logoPreview = document.getElementById("logo-preview");
@@ -71,6 +75,10 @@ const AddTeam = ({ fetchTeamsStart }) => {
 
   const loadLogoPreview = () => {
     logoPreview.src = URL.createObjectURL(logo);
+  };
+
+  const generateId = () => {
+    return "_" + Math.random().toString(36).substr(2, 9);
   };
 
   const createLogoLink = (ref) => {
@@ -103,13 +111,6 @@ const AddTeam = ({ fetchTeamsStart }) => {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
-          <TextField
-            id="outlined-basic"
-            label="Id"
-            variant="outlined"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
-          />
           <label htmlFor="upload-photo">
             <input
               style={{ display: "none" }}
@@ -119,7 +120,7 @@ const AddTeam = ({ fetchTeamsStart }) => {
               accept="image/*"
               onChange={(e) => {
                 const firstFile = e.target.files[0];
-                const fileRef = storageRef.child(firstFile.name);
+                const fileRef = storageRef.child(`teams/${firstFile.name}`);
                 fileRef.put(firstFile);
 
                 setLogo(e.target.files[0]);
@@ -138,12 +139,12 @@ const AddTeam = ({ fetchTeamsStart }) => {
             </Fab>
           </label>
           {logo ? loadLogoPreview() : null}
-          <p>Image preview</p>
+          <p>Logo preview</p>
           <img
             id="logo-preview"
             alt="Logo"
-            width="50px"
-            height="50px"
+            width="150px"
+            height="150px"
             src={QuestionMark}
           />
           <Button type="submit" variant="contained">

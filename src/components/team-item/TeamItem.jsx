@@ -6,7 +6,7 @@ import TouchIconComponent from "../touch-icon-component/TouchIconComponent";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import Flag from "../flag/Flag";
-import { TeamItemContainer, TeamItemInner } from "./TeamItemStyles";
+import { TeamItemContainer, TeamItemInner, LogoImage } from "./TeamItemStyles";
 import { deleteTeamStart } from "../../redux/teams/teamsActions";
 import toast from "react-hot-toast";
 
@@ -28,11 +28,12 @@ const DeleteTeam = ({ deleteTeamStart, id, name }) => {
 };
 
 const TeamItem = ({ team, deleteTeamStart }) => {
-  const { name, country, id } = team;
+  const { name, country, id, logoLink } = team;
   return (
     <TeamItemContainer>
       <TeamItemInner>
         <Flag code={country} />
+        <LogoImage src={logoLink} alt="Logo" />
         <span>{name}</span>
       </TeamItemInner>
 

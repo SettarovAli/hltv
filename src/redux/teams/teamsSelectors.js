@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import memoize from "lodash.memoize";
 
 const selectTeams = (state) => state.teams.teams;
 
@@ -9,4 +10,8 @@ export const selectTeamsForPreview = createSelector([selectTeams], (teams) =>
 export const selectIsTeamsLoaded = createSelector(
   [selectTeams],
   (teams) => !!teams
+);
+
+export const selectTeam = memoize((teamUrlParam) =>
+  createSelector([selectTeams], (teams) => (teams ? teams[teamUrlParam] : null))
 );

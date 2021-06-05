@@ -10,16 +10,17 @@ import {
   PlayerItemContainer,
   PlayerItemInner,
   AvatarImage,
+  PlayerNickname,
 } from "./PlayerItemStyles";
 import { deletePlayerStart } from "../../redux/players/playersActions";
 import toast from "react-hot-toast";
 
-const DeletePlayer = ({ deletePlayerStart, id, name }) => {
+const DeletePlayer = ({ deletePlayerStart, id, nickName }) => {
   return (
     <div
       onClick={async () => {
         await deletePlayerStart(id);
-        toast.error(`Player ${name} has been removed`);
+        toast.error(`Player ${nickName} has been removed`);
       }}
     >
       <TouchIconComponent
@@ -32,13 +33,13 @@ const DeletePlayer = ({ deletePlayerStart, id, name }) => {
 };
 
 const PlayerItem = ({ player, deletePlayerStart }) => {
-  const { name, country, id, logoLink } = player;
+  const { nickName, fullName, country, id, logoLink } = player;
   return (
     <PlayerItemContainer>
       <PlayerItemInner>
         <Flag code={country} />
         <AvatarImage src={logoLink} alt="Avatar" />
-        <span>{name}</span>
+        <PlayerNickname>{nickName}</PlayerNickname>
       </PlayerItemInner>
 
       <Route
@@ -48,7 +49,7 @@ const PlayerItem = ({ player, deletePlayerStart }) => {
             <DeletePlayer
               deletePlayerStart={deletePlayerStart}
               id={id}
-              name={name}
+              nickName={nickName}
             />
           );
         }}

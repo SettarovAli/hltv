@@ -62,13 +62,14 @@ export const addNewPlayer = async (playerInfo, additionalData) => {
   const snapShot = await docRef.get();
 
   if (!snapShot.exists) {
-    const { country, name, id, logoLink } = playerInfo;
+    const { country, nickName, fullName, id, logoLink } = playerInfo;
     const createdAt = new Date();
 
     try {
       await docRef.set({
         country,
-        name,
+        nickName,
+        fullName,
         id,
         logoLink,
         createdAt,
@@ -99,11 +100,12 @@ export const convertTeamsSnapshotToMap = (teams) => {
 
 export const convertPlayersSnapshotToMap = (players) => {
   const transformedPlayers = players.docs.map((doc) => {
-    const { country, name, id, logoLink } = doc.data();
+    const { country, fullName, nickName, id, logoLink } = doc.data();
 
     return {
       country,
-      name,
+      fullName,
+      nickName,
       id,
       logoLink,
     };

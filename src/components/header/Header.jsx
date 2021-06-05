@@ -16,6 +16,8 @@ const Header = () => {
           <NavLink to="/">News</NavLink>
           <NavLink to="/matches">Matches</NavLink>
           <NavLink to="/results">Results</NavLink>
+          <NavLink to="/teams">Teams</NavLink>
+          <NavLink to="/players">Players</NavLink>
           <NavLink to="/admin">
             <LockIcon
               style={{ transform: "translateY(-2px)", marginRight: "3px" }}

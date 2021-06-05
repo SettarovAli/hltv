@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddPlayer = ({ fetchPlayersStart }) => {
-  const [player, setPlayer] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [country, setCountry] = useState("");
   const [id, setId] = useState("");
   const [logo, setLogo] = useState("");
@@ -55,16 +56,17 @@ const AddPlayer = ({ fetchPlayersStart }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!player || !country || !id || !logo || !logoLink) {
+    if (!nickName || !fullName || !country || !id || !logo || !logoLink) {
       setAlert(true);
     } else {
-      const newPlayer = { name: player, country, id, logoLink };
+      const newPlayer = { nickName, fullName, country, id, logoLink };
       await addNewPlayer(newPlayer);
       fetchPlayersStart();
 
-      toast.success(`Player ${player} successfuly added`);
+      toast.success(`Player ${nickName} successfuly added`);
       setAlert(null);
-      setPlayer("");
+      setNickName("");
+      setFullName("");
       setCountry("");
       setId(generateId());
       setLogo("");
@@ -99,10 +101,17 @@ const AddPlayer = ({ fetchPlayersStart }) => {
         <FormContainer className={classes.root} onSubmit={handleSubmit}>
           <TextField
             id="outlined-basic"
-            label="Name"
+            label="Nickname"
             variant="outlined"
-            value={player}
-            onChange={(e) => setPlayer(e.target.value)}
+            value={nickName}
+            onChange={(e) => setNickName(e.target.value)}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Full name"
+            variant="outlined"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
           />
           <TextField
             id="outlined-basic"

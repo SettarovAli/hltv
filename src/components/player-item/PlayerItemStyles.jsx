@@ -31,3 +31,8 @@ export const AvatarImage = styled.img`
   border-radius: 10px;
   margin-right: 10px;
 `;
+
+export const PlayerNickname = styled.div`
+  font-size: 13px;
+  font-weight: bold;
+`;

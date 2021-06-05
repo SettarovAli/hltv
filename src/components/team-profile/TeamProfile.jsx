@@ -6,16 +6,16 @@ import {
   TeamInfo,
   TeamLogoContainer,
   TeamInfoContainer,
+  TeamLogoImage,
 } from "./TeamProfileStyles";
 
 const TeamProfile = ({ team }) => {
-  console.log(team);
   if (!team) return null;
   const { country, name, id, logoLink } = team;
   return (
     <TeamInfo>
       <TeamLogoContainer>
-        <img src={logoLink} alt="Logo" />
+        <TeamLogoImage src={logoLink} alt="Logo" />
       </TeamLogoContainer>
       <TeamInfoContainer>
         <Flag code={country} />

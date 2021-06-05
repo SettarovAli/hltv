@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const TeamInfo = styled.div`
+export const PlayerInfo = styled.div`
   display: flex;
   flex: 1 1 auto;
   background-color: var(--white);
   padding: 16px;
 `;
 
-export const TeamLogoContainer = styled.div`
+export const PlayerLogoContainer = styled.div`
   height: 150px;
   width: 150px;
   margin: 0 10px 0 0;
@@ -17,8 +17,8 @@ export const TeamLogoContainer = styled.div`
   align-content: center;
 `;
 
-export const TeamInfoContainer = styled.div``;
+export const PlayerInfoContainer = styled.div``;
 
-export const TeamLogoImage = styled.img`
+export const PlayerLogoImage = styled.img`
   height: 150px;
 `;

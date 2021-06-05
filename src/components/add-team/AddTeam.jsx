@@ -55,7 +55,7 @@ const AddTeam = ({ fetchTeamsStart }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!team || !country || !id || !logo) {
+    if (!team || !country || !id || !logo || !logoLink) {
       setAlert(true);
     } else {
       const newTeam = { name: team, country, id, logoLink };
@@ -66,7 +66,7 @@ const AddTeam = ({ fetchTeamsStart }) => {
       setAlert(null);
       setTeam("");
       setCountry("");
-      setId("");
+      setId(generateId());
       setLogo("");
       setLogoLink("");
       logoPreview.src = QuestionMark;

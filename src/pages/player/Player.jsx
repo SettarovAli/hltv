@@ -2,19 +2,19 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Column from "../../components/column/Column";
-import TeamProfile from "../../components/team-profile/TeamProfile";
+import PlayerProfile from "../../components/player-profile/PlayerProfile";
 import MatchesList from "../../components/matches-list/MatchesList";
 
-import { GridContainer } from "./TeamStyles";
+import { GridContainer } from "./PlayerStyles";
 
-import { selectTeam } from "../../redux/teams/teamsSelectors";
+import { selectPlayer } from "../../redux/players/playersSelectors";
 
-const Team = ({ team }) => {
+const Player = ({ player }) => {
   return (
     <GridContainer>
       <Column area="column-left"></Column>
       <Column area="column-content">
-        <TeamProfile team={team} />
+        <PlayerProfile player={player} />
       </Column>
       <Column area="column-right">
         <MatchesList />
@@ -24,7 +24,7 @@ const Team = ({ team }) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  team: selectTeam(ownProps.match.params.teamId)(state),
+  player: selectPlayer(ownProps.match.params.playerId)(state),
 });
 
-export default connect(mapStateToProps)(Team);
+export default connect(mapStateToProps)(Player);

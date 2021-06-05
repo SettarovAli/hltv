@@ -30,3 +30,8 @@ export const LogoImage = styled.img`
   height: 50px;
   margin-right: 10px;
 `;
+
+export const TeamName = styled.div`
+  font-size: 13px;
+  font-weight: bold;
+`;

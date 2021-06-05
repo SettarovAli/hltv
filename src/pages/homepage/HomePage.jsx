@@ -16,7 +16,6 @@ const HomePage = () => {
       <Column area="column-right">
         <MatchesList />
       </Column>
-      <Column area="column-right-2"></Column>
     </GridContainer>
   );
 };

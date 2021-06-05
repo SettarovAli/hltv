@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/storage";
 import keyBy from "lodash.keyby";
 
 const config = {
@@ -36,7 +37,7 @@ export const addNewTeam = async (teamInfo, additionalData) => {
   const snapShot = await docRef.get();
 
   if (!snapShot.exists) {
-    const { country, name, id } = teamInfo;
+    const { country, name, id, logoLink } = teamInfo;
     const createdAt = new Date();
 
     try {
@@ -44,6 +45,7 @@ export const addNewTeam = async (teamInfo, additionalData) => {
         country,
         name,
         id,
+        logoLink,
         createdAt,
         ...additionalData,
       });

@@ -13,10 +13,7 @@ export const AddTeamContainerInner = styled.div`
 
 export const FormContainer = styled.form`
   display: flex;
-
-  & > * {
-    margin-right: 10px;
-  }
+  flex-direction: column;
 `;
 
 export const AlertContainer = styled(Alert)`

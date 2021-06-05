@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import toast from "react-hot-toast";
 
-import { addNewTeam } from "../../firebase/firebaseUtils";
-import { fetchTeamsStart } from "../../redux/teams/teamsActions";
-
+import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+
+import firebase from "../../firebase/firebaseUtils";
+import QuestionMark from "../../assets/question-mark.jpg";
 
 import {
   AddTeamContainer,
@@ -15,35 +18,78 @@ import {
   AlertContainer,
 } from "./AddTeamStyles";
 
+import { addNewTeam } from "../../firebase/firebaseUtils";
+import { fetchTeamsStart } from "../../redux/teams/teamsActions";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      marginBottom: "10px",
+    },
+    "& > .MuiFormControl-root": {
+      minWidth: "320px",
+    },
+    "& > .MuiButtonBase-root": {
+      backgroundColor: "#2d6da3",
+      color: "white",
+      fontWeight: "bold",
+    },
+  },
+}));
+
 const AddTeam = ({ fetchTeamsStart }) => {
   const [team, setTeam] = useState("");
   const [country, setCountry] = useState("");
   const [id, setId] = useState("");
+  const [logo, setLogo] = useState("");
+  const [logoLink, setLogoLink] = useState("");
   const [alert, setAlert] = useState(null);
+
+  const classes = useStyles();
+  const storageRef = firebase.storage().ref();
+  const logoPreview = document.getElementById("logo-preview");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!team || !country || !id) {
+    if (!team || !country || !id || !logo) {
       setAlert(true);
     } else {
-      const newTeam = { name: team, country, id };
+      const newTeam = { name: team, country, id, logoLink };
       await addNewTeam(newTeam);
       fetchTeamsStart();
-      setAlert(null);
+
       toast.success(`Team ${team} successfuly added`);
+      setAlert(null);
       setTeam("");
       setCountry("");
       setId("");
+      setLogo("");
+      setLogoLink("");
+      logoPreview.src = QuestionMark;
     }
+  };
+
+  const loadLogoPreview = () => {
+    logoPreview.src = URL.createObjectURL(logo);
+  };
+
+  const createLogoLink = (ref) => {
+    ref
+      .getDownloadURL()
+      .then((url) => {
+        setLogoLink(url);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <AddTeamContainer>
       <AddTeamContainerInner>
         <h2>Add team</h2>
-        <FormContainer onSubmit={handleSubmit}>
+        <FormContainer className={classes.root} onSubmit={handleSubmit}>
           <TextField
-            style={{ marginRight: "10px" }}
             id="outlined-basic"
             label="Name"
             variant="outlined"
@@ -51,7 +97,6 @@ const AddTeam = ({ fetchTeamsStart }) => {
             onChange={(e) => setTeam(e.target.value)}
           />
           <TextField
-            style={{ marginRight: "10px" }}
             id="outlined-basic"
             label="Country"
             variant="outlined"
@@ -59,14 +104,49 @@ const AddTeam = ({ fetchTeamsStart }) => {
             onChange={(e) => setCountry(e.target.value)}
           />
           <TextField
-            style={{ marginRight: "10px" }}
             id="outlined-basic"
             label="Id"
             variant="outlined"
             value={id}
             onChange={(e) => setId(e.target.value)}
           />
-          <Button type="submit" variant="contained" color="primary">
+          <label htmlFor="upload-photo">
+            <input
+              style={{ display: "none" }}
+              id="upload-photo"
+              name="upload-photo"
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const firstFile = e.target.files[0];
+                const fileRef = storageRef.child(firstFile.name);
+                fileRef.put(firstFile);
+
+                setLogo(e.target.files[0]);
+                createLogoLink(fileRef);
+              }}
+            />
+
+            <Fab
+              color="secondary"
+              size="small"
+              component="span"
+              aria-label="add"
+              variant="extended"
+            >
+              <AddIcon /> Upload logo
+            </Fab>
+          </label>
+          {logo ? loadLogoPreview() : null}
+          <p>Image preview</p>
+          <img
+            id="logo-preview"
+            alt="Logo"
+            width="50px"
+            height="50px"
+            src={QuestionMark}
+          />
+          <Button type="submit" variant="contained">
             Add team
           </Button>
         </FormContainer>

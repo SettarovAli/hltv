@@ -57,6 +57,31 @@ export const addNewTeam = async (teamInfo, additionalData) => {
   return docRef;
 };
 
+export const addNewPlayer = async (playerInfo, additionalData) => {
+  const docRef = firestore.collection("players").doc(`${playerInfo.id}`);
+  const snapShot = await docRef.get();
+
+  if (!snapShot.exists) {
+    const { country, name, id, logoLink } = playerInfo;
+    const createdAt = new Date();
+
+    try {
+      await docRef.set({
+        country,
+        name,
+        id,
+        logoLink,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("Error creating player", error.message);
+    }
+  }
+
+  return docRef;
+};
+
 export const convertTeamsSnapshotToMap = (teams) => {
   const transformedTeams = teams.docs.map((doc) => {
     const { country, name, id } = doc.data();
@@ -69,6 +94,20 @@ export const convertTeamsSnapshotToMap = (teams) => {
   });
 
   return keyBy(transformedTeams, "id");
+};
+
+export const convertPlayersSnapshotToMap = (players) => {
+  const transformedPlayers = players.docs.map((doc) => {
+    const { country, name, id } = doc.data();
+
+    return {
+      country,
+      name,
+      id,
+    };
+  });
+
+  return keyBy(transformedPlayers, "id");
 };
 
 export default firebase;

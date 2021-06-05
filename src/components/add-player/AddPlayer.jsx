@@ -55,8 +55,7 @@ const AddPlayer = ({ fetchPlayersStart }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(id);
-    if (!player || !country || !id || !logo) {
+    if (!player || !country || !id || !logo || !logoLink) {
       setAlert(true);
     } else {
       const newPlayer = { name: player, country, id, logoLink };
@@ -67,7 +66,7 @@ const AddPlayer = ({ fetchPlayersStart }) => {
       setAlert(null);
       setPlayer("");
       setCountry("");
-      setId("");
+      setId(generateId());
       setLogo("");
       setLogoLink("");
       logoPreview.src = QuestionMark;

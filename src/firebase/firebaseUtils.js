@@ -84,12 +84,13 @@ export const addNewPlayer = async (playerInfo, additionalData) => {
 
 export const convertTeamsSnapshotToMap = (teams) => {
   const transformedTeams = teams.docs.map((doc) => {
-    const { country, name, id } = doc.data();
+    const { country, name, id, logoLink } = doc.data();
 
     return {
       country,
       name,
       id,
+      logoLink,
     };
   });
 
@@ -98,12 +99,13 @@ export const convertTeamsSnapshotToMap = (teams) => {
 
 export const convertPlayersSnapshotToMap = (players) => {
   const transformedPlayers = players.docs.map((doc) => {
-    const { country, name, id } = doc.data();
+    const { country, name, id, logoLink } = doc.data();
 
     return {
       country,
       name,
       id,
+      logoLink,
     };
   });
 

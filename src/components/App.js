@@ -18,14 +18,16 @@ import Footer from "./footer/Footer";
 import { Toaster } from "react-hot-toast";
 
 import { fetchTeamsStart } from "../redux/teams/teamsActions";
+import { fetchPlayersStart } from "../redux/players/playersActions";
 
 import { GlobalStyle } from "../GlobalStyles";
 
-const App = ({ teams, fetchTeamsStart }) => {
+const App = ({ teams, fetchTeamsStart, fetchPlayersStart }) => {
   useEffect(() => {
     // addCollectionAndDocuments("teams", teams);
     fetchTeamsStart();
-  }, []);
+    fetchPlayersStart();
+  }, [fetchTeamsStart, fetchPlayersStart]);
 
   return (
     <>
@@ -62,4 +64,6 @@ const mapStateToProps = createStructuredSelector({
   teams: selectTeamsForPreview,
 });
 
-export default connect(mapStateToProps, { fetchTeamsStart })(App);
+export default connect(mapStateToProps, { fetchTeamsStart, fetchPlayersStart })(
+  App
+);

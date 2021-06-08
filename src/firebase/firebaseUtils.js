@@ -37,7 +37,7 @@ export const addNewTeam = async (teamInfo, additionalData) => {
   const snapShot = await docRef.get();
 
   if (!snapShot.exists) {
-    const { country, name, id, logoLink } = teamInfo;
+    const { country, name, id, logoLink, squad } = teamInfo;
     const createdAt = new Date();
 
     try {
@@ -47,6 +47,7 @@ export const addNewTeam = async (teamInfo, additionalData) => {
         id,
         logoLink,
         createdAt,
+        squad,
         ...additionalData,
       });
     } catch (error) {
@@ -62,7 +63,7 @@ export const addNewPlayer = async (playerInfo, additionalData) => {
   const snapShot = await docRef.get();
 
   if (!snapShot.exists) {
-    const { country, nickName, fullName, id, logoLink } = playerInfo;
+    const { country, nickName, fullName, id, logoLink, team } = playerInfo;
     const createdAt = new Date();
 
     try {
@@ -73,6 +74,7 @@ export const addNewPlayer = async (playerInfo, additionalData) => {
         id,
         logoLink,
         createdAt,
+        team,
         ...additionalData,
       });
     } catch (error) {
@@ -83,24 +85,9 @@ export const addNewPlayer = async (playerInfo, additionalData) => {
   return docRef;
 };
 
-export const convertTeamsSnapshotToMap = (teams) => {
-  const transformedTeams = teams.docs.map((doc) => {
-    const { country, name, id, logoLink } = doc.data();
-
-    return {
-      country,
-      name,
-      id,
-      logoLink,
-    };
-  });
-
-  return keyBy(transformedTeams, "id");
-};
-
 export const convertPlayersSnapshotToMap = (players) => {
   const transformedPlayers = players.docs.map((doc) => {
-    const { country, fullName, nickName, id, logoLink } = doc.data();
+    const { country, fullName, nickName, id, logoLink, team } = doc.data();
 
     return {
       country,
@@ -108,10 +95,24 @@ export const convertPlayersSnapshotToMap = (players) => {
       nickName,
       id,
       logoLink,
+      team,
     };
   });
 
   return keyBy(transformedPlayers, "id");
+};
+
+export const addPlayerToSquad = (teamSnapshot, playerDocRef) => {
+  const { squad } = teamSnapshot.data();
+  squad.push(playerDocRef);
+  return squad;
+};
+
+export const addTeamForPlayer = (teamSnapshot, playerSnapshot) => {
+  const team = teamSnapshot.data();
+  let { team: newTeam } = playerSnapshot.data();
+  newTeam = team;
+  return newTeam;
 };
 
 export default firebase;

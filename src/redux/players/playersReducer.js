@@ -2,7 +2,7 @@ import PlayersActionTypes from "./playersTypes";
 
 const INITIAL_STATE = {
   isFetching: false,
-  players: null,
+  players: [],
   errorMessage: "",
 };
 
@@ -26,9 +26,15 @@ const playersReducer = (state = INITIAL_STATE, action) => {
         errorMessage: action.payload,
       };
     case PlayersActionTypes.DELETE_PLAYER_FAILURE:
+    case PlayersActionTypes.FETCH_CURRENT_TEAM_FAILURE:
       return {
         ...state,
         errorMessage: action.payload,
+      };
+    case PlayersActionTypes.FETCH_CURRENT_TEAM_SUCCESS:
+      return {
+        ...state,
+        player: action.payload,
       };
     default:
       return state;

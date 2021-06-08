@@ -7,6 +7,7 @@ import AddPlayer from "../../components/add-player/AddPlayer";
 import MatchesList from "../../components/matches-list/MatchesList";
 import TeamsList from "../../components/teams-list/TeamsListContainer";
 import PlayersList from "../../components/players-list/PlayersListContainer";
+import ChooseTeam from "../../components/choose-team/ChooseTeamContainer";
 
 import { GridContainer } from "./AdminStyles";
 
@@ -32,6 +33,10 @@ const Admin = () => {
         <Column area="players-right">
           <PlayersList />
         </Column>
+        <Column area="choose-team">
+          <ChooseTeam />
+        </Column>
+        <Column area="choose-team-right"></Column>
       </GridContainer>
     </>
   );

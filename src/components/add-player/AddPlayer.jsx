@@ -44,10 +44,12 @@ const AddPlayer = ({ fetchPlayersStart }) => {
   const [id, setId] = useState("");
   const [logo, setLogo] = useState("");
   const [logoLink, setLogoLink] = useState("");
+  const [team, setTeam] = useState({});
   const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     setId(generateId());
+    setTeam({});
   }, []);
 
   const classes = useStyles();
@@ -56,10 +58,10 @@ const AddPlayer = ({ fetchPlayersStart }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!nickName || !fullName || !country || !id || !logo || !logoLink) {
+    if (!nickName || !fullName || !country || !id || !logoLink) {
       setAlert(true);
     } else {
-      const newPlayer = { nickName, fullName, country, id, logoLink };
+      const newPlayer = { nickName, fullName, country, id, logoLink, team };
       await addNewPlayer(newPlayer);
       fetchPlayersStart();
 
@@ -83,8 +85,8 @@ const AddPlayer = ({ fetchPlayersStart }) => {
     logoPreview.src = URL.createObjectURL(logo);
   };
 
-  const createLogoLink = (ref) => {
-    ref
+  const createLogoLink = async (ref) => {
+    await ref
       .getDownloadURL()
       .then((url) => {
         setLogoLink(url);
@@ -127,10 +129,10 @@ const AddPlayer = ({ fetchPlayersStart }) => {
               name="upload-avatar"
               type="file"
               accept="image/*"
-              onChange={(e) => {
+              onChange={async (e) => {
                 const firstFile = e.target.files[0];
-                const fileRef = storageRef.child(`players/${firstFile.name}`);
-                fileRef.put(firstFile);
+                const fileRef = storageRef.child(`players/${firstFile?.name}`);
+                await fileRef.put(firstFile);
 
                 setLogo(e.target.files[0]);
                 createLogoLink(fileRef);

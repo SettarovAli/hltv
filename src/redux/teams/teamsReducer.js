@@ -26,6 +26,7 @@ const teamsReducer = (state = INITIAL_STATE, action) => {
         errorMessage: action.payload,
       };
     case TeamsActionTypes.DELETE_TEAM_FAILURE:
+    case TeamsActionTypes.CHOOSE_TEAM_FAILURE:
       return {
         ...state,
         errorMessage: action.payload,

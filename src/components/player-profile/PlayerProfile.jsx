@@ -11,7 +11,7 @@ import {
 
 const PlayerProfile = ({ player }) => {
   if (!player) return null;
-  const { country, nickName, fullName, id, logoLink } = player;
+  const { country, nickName, fullName, logoLink } = player;
   return (
     <PlayerInfo>
       <PlayerLogoContainer>

@@ -33,7 +33,7 @@ const DeletePlayer = ({ deletePlayerStart, id, nickName }) => {
 };
 
 const PlayerItem = ({ player, deletePlayerStart }) => {
-  const { nickName, fullName, country, id, logoLink } = player;
+  const { nickName, country, id, logoLink } = player;
   return (
     <PlayerItemContainer>
       <PlayerItemInner>

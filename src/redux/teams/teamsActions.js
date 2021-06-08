@@ -27,3 +27,17 @@ export const deleteTeamFailure = (errorMessage) => ({
   type: TeamsActionTypes.DELETE_TEAM_FAILURE,
   payload: errorMessage,
 });
+
+export const chooseTeamStart = (teamAndPlayer) => ({
+  type: TeamsActionTypes.CHOOSE_TEAM_START,
+  payload: teamAndPlayer,
+});
+
+export const chooseTeamSuccess = () => ({
+  type: TeamsActionTypes.CHOOSE_TEAM_SUCCESS,
+});
+
+export const chooseTeamFailure = (errorMessage) => ({
+  type: TeamsActionTypes.CHOOSE_TEAM_FAILURE,
+  payload: errorMessage,
+});

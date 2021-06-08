@@ -43,10 +43,12 @@ const AddTeam = ({ fetchTeamsStart }) => {
   const [id, setId] = useState("");
   const [logo, setLogo] = useState("");
   const [logoLink, setLogoLink] = useState("");
+  const [squad, setSquad] = useState([]);
   const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     setId(generateId());
+    setSquad([]);
   }, []);
 
   const classes = useStyles();
@@ -58,7 +60,7 @@ const AddTeam = ({ fetchTeamsStart }) => {
     if (!team || !country || !id || !logo || !logoLink) {
       setAlert(true);
     } else {
-      const newTeam = { name: team, country, id, logoLink };
+      const newTeam = { name: team, country, id, logoLink, squad };
       await addNewTeam(newTeam);
       fetchTeamsStart();
 
@@ -120,7 +122,7 @@ const AddTeam = ({ fetchTeamsStart }) => {
               accept="image/*"
               onChange={(e) => {
                 const firstFile = e.target.files[0];
-                const fileRef = storageRef.child(`teams/${firstFile.name}`);
+                const fileRef = storageRef.child(`teams/${firstFile?.name}`);
                 fileRef.put(firstFile);
 
                 setLogo(e.target.files[0]);

@@ -2,6 +2,8 @@ import React from "react";
 
 import Flag from "../flag/Flag";
 
+import TeamLineup from "../team-lineup/TeamLineup";
+
 import {
   TeamInfo,
   TeamLogoContainer,
@@ -11,17 +13,20 @@ import {
 
 const TeamProfile = ({ team }) => {
   if (!team) return null;
-  const { country, name, id, logoLink } = team;
+  const { country, name, logoLink } = team;
   return (
-    <TeamInfo>
-      <TeamLogoContainer>
-        <TeamLogoImage src={logoLink} alt="Logo" />
-      </TeamLogoContainer>
-      <TeamInfoContainer>
-        <Flag code={country} />
-        <h1>{name}</h1>
-      </TeamInfoContainer>
-    </TeamInfo>
+    <>
+      <TeamLineup team={team} />
+      <TeamInfo>
+        <TeamLogoContainer>
+          <TeamLogoImage src={logoLink} alt="Logo" />
+        </TeamLogoContainer>
+        <TeamInfoContainer>
+          <Flag code={country} />
+          <h1>{name}</h1>
+        </TeamInfoContainer>
+      </TeamInfo>
+    </>
   );
 };
 

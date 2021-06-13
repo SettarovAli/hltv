@@ -12,6 +12,8 @@ import {
   fetchPlayersFailure,
   deletePlayerSuccess,
   deletePlayerFailure,
+  deletePlayerFromOtherTeamSuccess,
+  deletePlayerFromOtherTeamFailure,
 } from "./playersActions";
 
 import { fetchTeamsStart } from "../teams/teamsActions";
@@ -84,6 +86,44 @@ export function* watchDeletePlayer() {
   yield takeLatest(PlayersActionTypes.DELETE_PLAYER_START, deletePlayer);
 }
 
+export function* deletePlayerFromOtherTeam(action) {
+  try {
+    console.log(action.payload);
+    yield firestore
+      .collection("teams")
+      .where(
+        "squad",
+        "array-contains",
+        firestore.collection("players").doc(action.payload)
+      )
+      .get()
+      .then((snap) => {
+        snap.forEach((docu) => {
+          docu.ref.update(
+            "squad",
+            firebase.firestore.FieldValue.arrayRemove(
+              firestore.collection("players").doc(action.payload)
+            )
+          );
+        });
+      });
+    yield put(deletePlayerFromOtherTeamSuccess());
+  } catch (error) {
+    yield put(deletePlayerFromOtherTeamFailure(error.message));
+  }
+}
+
+export function* watchdeletePlayerFromOtherTeam() {
+  yield takeLatest(
+    PlayersActionTypes.DELETE_PLAYER_FROM_OTHER_TEAM_START,
+    deletePlayerFromOtherTeam
+  );
+}
+
 export function* playersSagas() {
-  yield all([call(watchFetchPlayersStart), call(watchDeletePlayer)]);
+  yield all([
+    call(watchFetchPlayersStart),
+    call(watchDeletePlayer),
+    call(watchdeletePlayerFromOtherTeam),
+  ]);
 }

@@ -28,6 +28,20 @@ export const deletePlayerFailure = (errorMessage) => ({
   payload: errorMessage,
 });
 
+export const deletePlayerFromOtherTeamStart = (playerId) => ({
+  type: PlayersActionTypes.DELETE_PLAYER_FROM_OTHER_TEAM_START,
+  payload: playerId,
+});
+
+export const deletePlayerFromOtherTeamSuccess = () => ({
+  type: PlayersActionTypes.DELETE_PLAYER_FROM_OTHER_TEAM_SUCCESS,
+});
+
+export const deletePlayerFromOtherTeamFailure = (errorMessage) => ({
+  type: PlayersActionTypes.DELETE_PLAYER_FROM_OTHER_TEAM_FAILURE,
+  payload: errorMessage,
+});
+
 export const fetchCurrentTeamStart = (playerDocRef) => ({
   type: PlayersActionTypes.FETCH_CURRENT_TEAM_START,
   payload: playerDocRef,

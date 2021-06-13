@@ -26,6 +26,7 @@ const playersReducer = (state = INITIAL_STATE, action) => {
         errorMessage: action.payload,
       };
     case PlayersActionTypes.DELETE_PLAYER_FAILURE:
+    case PlayersActionTypes.DELETE_PLAYER_FROM_OTHER_TEAM_FAILURE:
     case PlayersActionTypes.FETCH_CURRENT_TEAM_FAILURE:
       return {
         ...state,

@@ -14,6 +14,7 @@ import PlayerOptions from "../player-options/PlayerOptions";
 import { selectTeamsObject } from "../../redux/teams/teamsSelectors";
 import { selectPlayersObject } from "../../redux/players/playersSelectors";
 import { chooseTeamStart } from "../../redux/teams/teamsActions";
+import { deletePlayerFromOtherTeamStart } from "../../redux/players/playersActions";
 
 import {
   ChooseTeamContainer,
@@ -22,17 +23,24 @@ import {
   AlertContainer,
 } from "./ChooseTeamStyles";
 
-const ChooseTeam = ({ teams, players, chooseTeamStart }) => {
+const ChooseTeam = ({
+  teams,
+  players,
+  chooseTeamStart,
+  deletePlayerFromOtherTeamStart,
+}) => {
   const [team, setTeam] = useState("");
   const [player, setPlayer] = useState("");
   const [alert, setAlert] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!team || !player) {
       setAlert(true);
     } else {
-      chooseTeamStart({
+      console.log(player);
+      await deletePlayerFromOtherTeamStart(player);
+      await chooseTeamStart({
         team: teams[team],
         player: players[player],
       });
@@ -104,4 +112,7 @@ const mapStateToProps = createStructuredSelector({
   players: selectPlayersObject,
 });
 
-export default connect(mapStateToProps, { chooseTeamStart })(ChooseTeam);
+export default connect(mapStateToProps, {
+  chooseTeamStart,
+  deletePlayerFromOtherTeamStart,
+})(ChooseTeam);

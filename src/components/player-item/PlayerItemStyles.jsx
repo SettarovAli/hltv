@@ -38,3 +38,8 @@ export const PlayerNickname = styled.div`
   font-size: 13px;
   font-weight: bold;
 `;
+
+export const LogoImage = styled.img`
+  height: 30px;
+  margin-right: 10px;
+`;

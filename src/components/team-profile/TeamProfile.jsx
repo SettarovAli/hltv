@@ -16,7 +16,7 @@ const TeamProfile = ({ team }) => {
   const { country, name, logoLink } = team;
   return (
     <>
-      <TeamLineup team={team} />
+      <TeamLineup team={team} details={true} fontSize={"12px"} />
       <TeamInfo>
         <TeamLogoContainer>
           <TeamLogoImage src={logoLink} alt="Logo" />

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 
 import TouchIconComponent from "../touch-icon-component/TouchIconComponent";
+import TeamLineup from "../team-lineup/TeamLineup";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import Flag from "../flag/Flag";
@@ -11,6 +12,7 @@ import {
   TeamItemLink,
   LogoImage,
   TeamName,
+  TeamLineupContainer,
 } from "./TeamItemStyles";
 import { deleteTeamStart } from "../../redux/teams/teamsActions";
 import toast from "react-hot-toast";
@@ -32,7 +34,7 @@ const DeleteTeam = ({ deleteTeamStart, id, name }) => {
   );
 };
 
-const TeamItem = ({ team, deleteTeamStart }) => {
+const TeamItem = ({ team, deleteTeamStart, details, width, fontSize }) => {
   if (!team) return null;
   const { name, country, id, logoLink } = team;
   return (
@@ -42,6 +44,10 @@ const TeamItem = ({ team, deleteTeamStart }) => {
         <LogoImage src={logoLink} alt="Logo" />
         <TeamName>{name}</TeamName>
       </TeamItemLink>
+
+      <TeamLineupContainer width={width}>
+        <TeamLineup team={team} details={details} fontSize={fontSize} />
+      </TeamLineupContainer>
 
       <Route
         path="/admin"

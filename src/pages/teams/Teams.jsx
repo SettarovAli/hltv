@@ -11,7 +11,7 @@ const Teams = () => {
     <>
       <GridContainer>
         <Column area="column-content">
-          <TeamsList />
+          <TeamsList details={true} width="450px" fontSize={"12px"} />
         </Column>
         <Column area="column-right">
           <MatchesList />

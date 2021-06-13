@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 export const TeamItemContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ccc;
@@ -26,6 +27,10 @@ export const TeamItemLink = styled(Link)`
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 12px;
+`;
+
+export const TeamLineupContainer = styled.div`
+  width: ${(props) => props.width};
 `;
 
 export const LogoImage = styled.img`

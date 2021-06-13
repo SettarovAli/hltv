@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import TeamOptions from "../team-options/TeamOptions";
 
-import { selectTeamsForPreview } from "../../redux/teams/teamsSelectors";
+import { selectTeamsObject } from "../../redux/teams/teamsSelectors";
 import { addMatch } from "../../redux/matches/matchesActions";
 
 import {
@@ -43,13 +43,15 @@ const AddMatch = ({ teams, addMatch }) => {
       setAlert(true);
     } else {
       addMatch({
-        team1: teams.find((team) => team.name === team1),
-        team2: teams.find((team) => team.name === team2),
+        team1: teams[team1],
+        team2: teams[team2],
         date: calculateDate(date, time),
         id: generateId(),
       });
       setAlert(null);
-      toast.success(`Match ${team1} - ${team2} successfuly added`);
+      toast.success(
+        `Match ${teams[team1].name} - ${teams[team2].name} successfuly added`
+      );
       setTeam1("");
       setTeam2("");
       setDate("");
@@ -123,7 +125,7 @@ const AddMatch = ({ teams, addMatch }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  teams: selectTeamsForPreview,
+  teams: selectTeamsObject,
 });
 
 export default connect(mapStateToProps, { addMatch })(AddMatch);

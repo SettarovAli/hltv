@@ -25,7 +25,7 @@ const Admin = () => {
           <AddTeam />
         </Column>
         <Column area="teams-right">
-          <TeamsList />
+          <TeamsList details={false} width="200px" fontSize={"12px"} />
         </Column>
         <Column area="players">
           <AddPlayer />

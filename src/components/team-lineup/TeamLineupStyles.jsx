@@ -41,3 +41,7 @@ export const AvatarImage = styled.img`
   width: 100%;
   display: block;
 `;
+
+export const PlayerName = styled.h3`
+  font-size: ${(props) => props.fontSize};
+`;

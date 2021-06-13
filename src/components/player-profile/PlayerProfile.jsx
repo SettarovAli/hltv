@@ -25,7 +25,12 @@ const PlayerProfile = ({ player, teams }) => {
         <Flag code={country} />
         <h1>{nickName}</h1>
         <h2>{fullName}</h2>
-        <TeamItem team={teams[currentTeam]} />
+        <TeamItem
+          team={teams[currentTeam]}
+          details={true}
+          fontSize={"10px"}
+          width="350px"
+        />
       </PlayerInfoContainer>
     </PlayerInfo>
   );

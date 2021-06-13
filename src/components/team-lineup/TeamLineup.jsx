@@ -12,21 +12,25 @@ import {
   TeamLineupLink,
   PlayerInfo,
   AvatarImage,
+  PlayerName,
 } from "./TeamLineupStyles";
 
-const TeamLineup = ({ team: { players }, allPlayers }) => {
+const TeamLineup = ({ team: { players }, allPlayers, details, fontSize }) => {
   if (isEmpty(allPlayers)) return null;
   return (
     <TeamLineupContainer>
       {players.map((player, i) => {
+        if (!allPlayers[player]) return null;
         const { nickName, country, logoLink, id } = allPlayers[player];
         return (
           <TeamLineupLink key={i} to={`/players/${id}`}>
             <AvatarImage src={logoLink} />
-            <PlayerInfo>
-              <Flag code={country} />
-              <h3>{nickName}</h3>
-            </PlayerInfo>
+            {details ? (
+              <PlayerInfo>
+                <Flag code={country} />
+                <PlayerName fontSize={fontSize}>{nickName}</PlayerName>
+              </PlayerInfo>
+            ) : null}
           </TeamLineupLink>
         );
       })}

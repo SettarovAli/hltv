@@ -10,7 +10,7 @@ const TeamOptions = ({ teams }) => {
       <option value={""}></option>
       {teams.map((team, i) => {
         return (
-          <option key={i} value={team.name}>
+          <option key={i} value={team.id}>
             {team.name}
           </option>
         );

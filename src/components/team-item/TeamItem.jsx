@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Flag from "../flag/Flag";
 import {
   TeamItemContainer,
-  TeamItemInner,
+  TeamItemLink,
   LogoImage,
   TeamName,
 } from "./TeamItemStyles";
@@ -33,14 +33,15 @@ const DeleteTeam = ({ deleteTeamStart, id, name }) => {
 };
 
 const TeamItem = ({ team, deleteTeamStart }) => {
+  if (!team) return null;
   const { name, country, id, logoLink } = team;
   return (
     <TeamItemContainer>
-      <TeamItemInner>
+      <TeamItemLink to={`/teams/${team.id}`}>
         <Flag code={country} />
         <LogoImage src={logoLink} alt="Logo" />
         <TeamName>{name}</TeamName>
-      </TeamItemInner>
+      </TeamItemLink>
 
       <Route
         path="/admin"

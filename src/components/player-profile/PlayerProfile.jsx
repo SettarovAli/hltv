@@ -1,4 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { selectTeamsObject } from "../../redux/teams/teamsSelectors";
+import TeamItem from "../team-item/TeamItem";
 
 import Flag from "../flag/Flag";
 
@@ -9,9 +13,9 @@ import {
   PlayerLogoImage,
 } from "./PlayerProfileStyles";
 
-const PlayerProfile = ({ player }) => {
+const PlayerProfile = ({ player, teams }) => {
   if (!player) return null;
-  const { country, nickName, fullName, logoLink } = player;
+  const { country, nickName, fullName, logoLink, currentTeam } = player;
   return (
     <PlayerInfo>
       <PlayerLogoContainer>
@@ -20,10 +24,15 @@ const PlayerProfile = ({ player }) => {
       <PlayerInfoContainer>
         <Flag code={country} />
         <h1>{nickName}</h1>
-        <h3>{fullName}</h3>
+        <h2>{fullName}</h2>
+        <TeamItem team={teams[currentTeam]} />
       </PlayerInfoContainer>
     </PlayerInfo>
   );
 };
 
-export default PlayerProfile;
+const mapStateToProps = createStructuredSelector({
+  teams: selectTeamsObject,
+});
+
+export default connect(mapStateToProps)(PlayerProfile);

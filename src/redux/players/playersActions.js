@@ -33,9 +33,8 @@ export const fetchCurrentTeamStart = (playerDocRef) => ({
   payload: playerDocRef,
 });
 
-export const fetchCurrentTeamSuccess = (player) => ({
+export const fetchCurrentTeamSuccess = () => ({
   type: PlayersActionTypes.FETCH_CURRENT_TEAM_SUCCESS,
-  payload: player,
 });
 
 export const fetchCurrentTeamFailure = (errorMessage) => ({

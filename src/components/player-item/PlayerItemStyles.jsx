@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const PlayerItemContainer = styled.div`
   display: flex;
@@ -15,8 +16,9 @@ export const PlayerItemContainer = styled.div`
   }
 `;
 
-export const PlayerItemInner = styled.div`
+export const PlayerItemLink = styled(Link)`
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   text-decoration: none;
   color: #2d6da3;

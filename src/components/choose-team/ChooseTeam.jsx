@@ -11,8 +11,8 @@ import Button from "@material-ui/core/Button";
 import TeamOptions from "../team-options/TeamOptions";
 import PlayerOptions from "../player-options/PlayerOptions";
 
-import { selectTeamsForPreview } from "../../redux/teams/teamsSelectors";
-import { selectPlayersForPreview } from "../../redux/players/playersSelectors";
+import { selectTeamsObject } from "../../redux/teams/teamsSelectors";
+import { selectPlayersObject } from "../../redux/players/playersSelectors";
 import { chooseTeamStart } from "../../redux/teams/teamsActions";
 
 import {
@@ -33,11 +33,13 @@ const ChooseTeam = ({ teams, players, chooseTeamStart }) => {
       setAlert(true);
     } else {
       chooseTeamStart({
-        team: teams.find((teamObj) => teamObj.name === team),
-        player: players.find((playerObj) => playerObj.nickName === player),
+        team: teams[team],
+        player: players[player],
       });
       setAlert(null);
-      toast.success(`Player ${player} added to ${team} team`);
+      toast.success(
+        `Player ${players[player].nickName} added to ${teams[team].name} team`
+      );
       setTeam("");
       setPlayer("");
     }
@@ -98,8 +100,8 @@ const ChooseTeam = ({ teams, players, chooseTeamStart }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  teams: selectTeamsForPreview,
-  players: selectPlayersForPreview,
+  teams: selectTeamsObject,
+  players: selectPlayersObject,
 });
 
 export default connect(mapStateToProps, { chooseTeamStart })(ChooseTeam);

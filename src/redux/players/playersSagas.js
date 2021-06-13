@@ -1,9 +1,8 @@
 import { takeLatest, call, put, all } from "redux-saga/effects";
 import firebase from "../../firebase/firebaseUtils";
-import {
-  firestore,
-  convertPlayersSnapshotToMap,
-} from "../../firebase/firebaseUtils";
+import { firestore } from "../../firebase/firebaseUtils";
+
+import keyBy from "lodash.keyby";
 
 import PlayersActionTypes from "./playersTypes";
 
@@ -13,18 +12,33 @@ import {
   fetchPlayersFailure,
   deletePlayerSuccess,
   deletePlayerFailure,
-  fetchCurrentTeamSuccess,
-  fetchCurrentTeamFailure,
 } from "./playersActions";
 
 import { fetchTeamsStart } from "../teams/teamsActions";
 
+export const convertPlayersSnapshotToMap = (playersSnapshot) => {
+  return playersSnapshot.docs.map((doc) => {
+    const { nickName, fullName, country, id, logoLink, team } = doc.data();
+    const currentTeam = team.id;
+    return {
+      nickName,
+      fullName,
+      country,
+      id,
+      logoLink,
+      team,
+      currentTeam,
+    };
+  });
+};
+
 export function* fetchPlayersStartAsync() {
   try {
-    const collectionRef = firestore.collection("players");
-    const snapshot = yield collectionRef.get();
-    const collectionsMap = yield call(convertPlayersSnapshotToMap, snapshot);
-    yield put(fetchPlayersSuccess(collectionsMap));
+    const playersRef = firestore.collection("players");
+    const snapshot = yield playersRef.get();
+    const players = yield call(convertPlayersSnapshotToMap, snapshot);
+    const transform = yield keyBy(players, "id");
+    yield put(fetchPlayersSuccess(transform));
   } catch (error) {
     yield put(fetchPlayersFailure(error.message));
   }
@@ -70,43 +84,6 @@ export function* watchDeletePlayer() {
   yield takeLatest(PlayersActionTypes.DELETE_PLAYER_START, deletePlayer);
 }
 
-export function* fetchCurrentTeam(action) {
-  try {
-    let newItem;
-
-    const playerDocRef = action.payload;
-
-    yield playerDocRef
-      .get()
-      .then((doc) => {
-        newItem = doc.data();
-        newItem.team
-          .get()
-          .then((doc) => {
-            newItem.teamData = doc.data();
-          })
-          .catch((err) => console.error(err));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    yield put(fetchCurrentTeamSuccess(newItem));
-  } catch (error) {
-    yield put(fetchCurrentTeamFailure(error.message));
-  }
-}
-
-export function* watchFetchCurrentTeam() {
-  yield takeLatest(
-    PlayersActionTypes.FETCH_CURRENT_TEAM_START,
-    fetchCurrentTeam
-  );
-}
-
 export function* playersSagas() {
-  yield all([
-    call(watchFetchPlayersStart),
-    call(watchDeletePlayer),
-    call(watchFetchCurrentTeam),
-  ]);
+  yield all([call(watchFetchPlayersStart), call(watchDeletePlayer)]);
 }

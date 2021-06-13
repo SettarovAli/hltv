@@ -3,6 +3,11 @@ import memoize from "lodash.memoize";
 
 const selectTeams = (state) => state.teams.teams;
 
+export const selectTeamsObject = createSelector(
+  [selectTeams],
+  (teams) => teams
+);
+
 export const selectTeamsForPreview = createSelector([selectTeams], (teams) =>
   teams ? Object.values(teams) : []
 );

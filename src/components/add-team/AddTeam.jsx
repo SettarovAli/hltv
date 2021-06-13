@@ -30,9 +30,17 @@ const useStyles = makeStyles((theme) => ({
       minWidth: "320px",
     },
     "& > .MuiButtonBase-root": {
+      width: "150px",
+      padding: "15px",
+      borderRadius: "200px",
       backgroundColor: "#2d6da3",
+      border: "1px solid #2d6da3",
       color: "white",
       fontWeight: "bold",
+    },
+    "& > .MuiButtonBase-root:hover": {
+      backgroundColor: "white",
+      color: "#2d6da3",
     },
   },
 }));
@@ -57,7 +65,7 @@ const AddTeam = ({ fetchTeamsStart }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!team || !country || !id || !logo || !logoLink) {
+    if (!team || !country || !id || !logoLink) {
       setAlert(true);
     } else {
       const newTeam = { name: team, country, id, logoLink, squad };

@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Flag from "../flag/Flag";
 import {
   PlayerItemContainer,
-  PlayerItemInner,
+  PlayerItemLink,
   AvatarImage,
   PlayerNickname,
 } from "./PlayerItemStyles";
@@ -33,14 +33,15 @@ const DeletePlayer = ({ deletePlayerStart, id, nickName }) => {
 };
 
 const PlayerItem = ({ player, deletePlayerStart }) => {
+  if (!player) return null;
   const { nickName, country, id, logoLink } = player;
   return (
     <PlayerItemContainer>
-      <PlayerItemInner>
+      <PlayerItemLink to={`/players/${player.id}`}>
         <Flag code={country} />
         <AvatarImage src={logoLink} alt="Avatar" />
         <PlayerNickname>{nickName}</PlayerNickname>
-      </PlayerItemInner>
+      </PlayerItemLink>
 
       <Route
         path="/admin"

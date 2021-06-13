@@ -26,13 +26,7 @@ export const convertTeamsSnapshotToMap = function* (teamsRef) {
       return teamsSnap.docs.map((doc) => {
         const { name, country, id, logoLink, squad } = doc.data();
 
-        const players = [];
-        squad.forEach((player) => {
-          player.get().then((playerSnap) => {
-            const player = playerSnap.data();
-            players.push(player);
-          });
-        });
+        const players = squad.map((player) => player.id);
 
         return {
           name,
@@ -53,8 +47,8 @@ export const convertTeamsSnapshotToMap = function* (teamsRef) {
 
 export function* fetchTeamsStartAsync() {
   try {
-    const collectionRef = firestore.collection("teams");
-    yield call(convertTeamsSnapshotToMap, collectionRef);
+    const teamsRef = firestore.collection("teams");
+    yield call(convertTeamsSnapshotToMap, teamsRef);
   } catch (error) {
     yield put(fetchTeamsFailure(error.message));
   }
@@ -86,7 +80,7 @@ export function* chooseTeam(action) {
 
     const teamSnapshot = yield teamDocRef.get();
 
-    let playerDocRef = firestore
+    const playerDocRef = firestore
       .collection("players")
       .doc(`${action.payload.player.id}`);
 
@@ -99,10 +93,6 @@ export function* chooseTeam(action) {
     yield playerDocRef.update({
       team: teamDocRef,
     });
-
-    playerDocRef = firestore
-      .collection("players")
-      .doc(`${action.payload.player.id}`);
 
     yield put(chooseTeamSuccess());
     yield put(fetchTeamsStart());

@@ -10,7 +10,7 @@ const PlayerOptions = ({ players }) => {
       <option value={""}></option>
       {players.map((player, i) => {
         return (
-          <option key={i} value={player.nickName}>
+          <option key={i} value={player.id}>
             {player.nickName}
           </option>
         );

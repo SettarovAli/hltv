@@ -3,14 +3,14 @@ import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
-import // addCollectionAndDocuments,
-"../firebase/firebaseUtils";
+// import { addCollectionAndDocuments } from "../firebase/firebaseUtils";
 import { selectTeamsForPreview } from "../redux/teams/teamsSelectors";
 
 import Header from "./header/Header";
 import MainContent from "./main-content/MainContent";
 import HomePage from "../pages/homepage/HomePage";
 import Matches from "../pages/matches/Matches";
+import Match from "../pages/match/Match";
 import Results from "../pages/results/Results";
 import Teams from "../pages/teams/Teams";
 import Team from "../pages/team/Team";
@@ -22,15 +22,22 @@ import { Toaster } from "react-hot-toast";
 
 import { fetchTeamsStart } from "../redux/teams/teamsActions";
 import { fetchPlayersStart } from "../redux/players/playersActions";
+import { fetchMatchesStart } from "../redux/matches/matchesActions";
 
 import { GlobalStyle } from "../GlobalStyles";
 
-const App = ({ teams, fetchTeamsStart, fetchPlayersStart }) => {
+const App = ({
+  teams,
+  fetchTeamsStart,
+  fetchPlayersStart,
+  fetchMatchesStart,
+}) => {
   useEffect(() => {
     // addCollectionAndDocuments("teams", teams);
     fetchTeamsStart();
     fetchPlayersStart();
-  }, [fetchTeamsStart, fetchPlayersStart]);
+    fetchMatchesStart();
+  }, [fetchTeamsStart, fetchPlayersStart, fetchMatchesStart]);
 
   return (
     <>
@@ -40,7 +47,8 @@ const App = ({ teams, fetchTeamsStart, fetchPlayersStart }) => {
       <MainContent>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/matches" component={Matches} />
+          <Route exact path="/matches" component={Matches} />
+          <Route path="/matches/:matchId" component={Match} />
           <Route path="/results" component={Results} />
           <Route exact path="/teams" component={Teams} />
           <Route path="/teams/:teamId" component={Team} />
@@ -70,6 +78,8 @@ const mapStateToProps = createStructuredSelector({
   teams: selectTeamsForPreview,
 });
 
-export default connect(mapStateToProps, { fetchTeamsStart, fetchPlayersStart })(
-  App
-);
+export default connect(mapStateToProps, {
+  fetchTeamsStart,
+  fetchPlayersStart,
+  fetchMatchesStart,
+})(App);

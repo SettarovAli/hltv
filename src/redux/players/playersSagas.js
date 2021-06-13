@@ -88,21 +88,16 @@ export function* watchDeletePlayer() {
 
 export function* deletePlayerFromOtherTeam(action) {
   try {
-    console.log(action.payload);
     yield firestore
       .collection("teams")
-      .where(
-        "squad",
-        "array-contains",
-        firestore.collection("players").doc(action.payload)
-      )
+      .where("id", "!=", action.payload.team)
       .get()
       .then((snap) => {
         snap.forEach((docu) => {
           docu.ref.update(
             "squad",
             firebase.firestore.FieldValue.arrayRemove(
-              firestore.collection("players").doc(action.payload)
+              firestore.collection("players").doc(action.payload.player)
             )
           );
         });

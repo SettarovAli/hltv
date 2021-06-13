@@ -38,12 +38,23 @@ const ChooseTeam = ({
     if (!team || !player) {
       setAlert(true);
     } else {
-      console.log(player);
-      await deletePlayerFromOtherTeamStart(player);
+      if (team === players[player].currentTeam) {
+        toast.error(
+          `Player ${players[player].nickName} already in ${teams[team].name} team`
+        );
+        setAlert(null);
+        setTeam("");
+        setPlayer("");
+        return;
+      }
+
+      await deletePlayerFromOtherTeamStart({ player, team });
+
       await chooseTeamStart({
         team: teams[team],
         player: players[player],
       });
+
       setAlert(null);
       toast.success(
         `Player ${players[player].nickName} added to ${teams[team].name} team`

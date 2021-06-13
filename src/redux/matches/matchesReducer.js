@@ -1,17 +1,29 @@
 import MatchesActionTypes from "./matchesTypes";
 
-import { removeFutureMatch } from "./matchesUtils";
-
-const INITIAL_STATE = { future: [] };
+const INITIAL_STATE = {
+  isFetching: false,
+  matches: { active: {}, future: {} },
+  errorMessage: "",
+};
 
 const matchesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case MatchesActionTypes.ADD_MATCH:
-      return { ...state, future: [...state.future, action.payload] };
-    case MatchesActionTypes.REMOVE_MATCH:
+    case MatchesActionTypes.FETCH_MATCHES_START:
       return {
         ...state,
-        future: removeFutureMatch(state.future, action.payload),
+        isFetching: true,
+      };
+    case MatchesActionTypes.FETCH_MATCHES_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        matches: { ...state.matches, future: action.payload },
+      };
+    case MatchesActionTypes.FETCH_MATCHES_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.payload,
       };
     default:
       return state;

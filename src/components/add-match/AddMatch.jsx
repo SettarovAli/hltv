@@ -11,7 +11,8 @@ import Button from "@material-ui/core/Button";
 import TeamOptions from "../team-options/TeamOptions";
 
 import { selectTeamsObject } from "../../redux/teams/teamsSelectors";
-import { addMatch } from "../../redux/matches/matchesActions";
+import { addNewMatch } from "../../firebase/firebaseUtils";
+import { fetchMatchesStart } from "../../redux/matches/matchesActions";
 
 import {
   AddMatchContainer,
@@ -20,7 +21,7 @@ import {
   AlertContainer,
 } from "./AddMatchStyles";
 
-const AddMatch = ({ teams, addMatch }) => {
+const AddMatch = ({ teams, fetchMatchesStart }) => {
   const [team1, setTeam1] = useState("");
   const [team2, setTeam2] = useState("");
   const [date, setDate] = useState("");
@@ -37,17 +38,19 @@ const AddMatch = ({ teams, addMatch }) => {
     return new Date(y, m - 1, d, h, min);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!team1 || !team2 || !date || !time) {
       setAlert(true);
     } else {
-      addMatch({
-        team1: teams[team1],
-        team2: teams[team2],
+      await addNewMatch({
+        team1,
+        team2,
         date: calculateDate(date, time),
         id: generateId(),
       });
+      await fetchMatchesStart();
+
       setAlert(null);
       toast.success(
         `Match ${teams[team1].name} - ${teams[team2].name} successfuly added`
@@ -128,4 +131,4 @@ const mapStateToProps = createStructuredSelector({
   teams: selectTeamsObject,
 });
 
-export default connect(mapStateToProps, { addMatch })(AddMatch);
+export default connect(mapStateToProps, { fetchMatchesStart })(AddMatch);

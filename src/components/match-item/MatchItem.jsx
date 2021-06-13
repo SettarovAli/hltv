@@ -1,36 +1,42 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
+import { createStructuredSelector } from "reselect";
 
-import TouchIconComponent from "../touch-icon-component/TouchIconComponent";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { selectTeamsObject } from "../../redux/teams/teamsSelectors";
+// import { Route } from "react-router-dom";
+
+// import TouchIconComponent from "../touch-icon-component/TouchIconComponent";
+// import DeleteIcon from "@material-ui/icons/Delete";
 import TeamRow from "../team-row/TeamRow";
 
-import { removeMatch } from "../../redux/matches/matchesActions";
+// import { removeMatch } from "../../redux/matches/matchesActions";
 
 import {
   MatchItemContainer,
   TeamsContainer,
   Time,
+  MatchItemLink,
   // ScoreContainer,
 } from "./MatchItemStyles";
 
-const DeleteMatch = ({ match, removeMatch }) => {
-  return (
-    <div onClick={() => removeMatch(match)}>
-      <TouchIconComponent
-        Icon={DeleteIcon}
-        fontSize={"default"}
-        color={"error"}
-      />
-    </div>
-  );
-};
+// const DeleteMatch = ({ match, removeMatch }) => {
+//   return (
+//     <div onClick={() => removeMatch(match)}>
+//       <TouchIconComponent
+//         Icon={DeleteIcon}
+//         fontSize={"default"}
+//         color={"error"}
+//       />
+//     </div>
+//   );
+// };
 
-const MatchItem = ({ match, removeMatch }) => {
-  const { team1, team2, date } = match;
+const MatchItem = ({ match, teams }) => {
+  let { team1, team2, date, id } = match;
+  team1 = teams[team1];
+  team2 = teams[team2];
 
-  const generateTime = (data) => {
+  const generateTime = (date) => {
     const checkTime = (i) => {
       if (i < 10) {
         i = "0" + i;
@@ -49,18 +55,20 @@ const MatchItem = ({ match, removeMatch }) => {
 
   return (
     <MatchItemContainer>
-      <TeamsContainer>
-        <TeamRow country={team1.country} name={team1.name} />
-        <TeamRow country={team2.country} name={team2.name} />
-      </TeamsContainer>
-      <Time>{generateTime(date)}</Time>
+      <MatchItemLink to={`/matches/${id}`}>
+        <TeamsContainer>
+          <TeamRow country={team1.country} name={team1.name} />
+          <TeamRow country={team2.country} name={team2.name} />
+        </TeamsContainer>
+        <Time>{generateTime(date)}</Time>
+      </MatchItemLink>
 
-      <Route
+      {/* <Route
         path="/admin"
         render={() => {
           return <DeleteMatch match={match} removeMatch={removeMatch} />;
         }}
-      />
+      /> */}
 
       {/* <ScoreContainer>
         <div>14</div>
@@ -70,4 +78,10 @@ const MatchItem = ({ match, removeMatch }) => {
   );
 };
 
-export default connect(null, { removeMatch })(MatchItem);
+const mapStateToProps = createStructuredSelector({
+  teams: selectTeamsObject,
+});
+
+export default connect(mapStateToProps, {
+  // removeMatch
+})(MatchItem);

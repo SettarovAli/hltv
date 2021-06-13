@@ -70,7 +70,7 @@ const AddTeam = ({ fetchTeamsStart }) => {
     } else {
       const newTeam = { name: team, country, id, logoLink, squad };
       await addNewTeam(newTeam);
-      fetchTeamsStart();
+      await fetchTeamsStart();
 
       toast.success(`Team ${team} successfuly added`);
       setAlert(null);

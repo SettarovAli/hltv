@@ -28,9 +28,9 @@ export const deletePlayerFailure = (errorMessage) => ({
   payload: errorMessage,
 });
 
-export const deletePlayerFromOtherTeamStart = (playerId) => ({
+export const deletePlayerFromOtherTeamStart = (playerAndTeam) => ({
   type: PlayersActionTypes.DELETE_PLAYER_FROM_OTHER_TEAM_START,
-  payload: playerId,
+  payload: playerAndTeam,
 });
 
 export const deletePlayerFromOtherTeamSuccess = () => ({
@@ -39,19 +39,5 @@ export const deletePlayerFromOtherTeamSuccess = () => ({
 
 export const deletePlayerFromOtherTeamFailure = (errorMessage) => ({
   type: PlayersActionTypes.DELETE_PLAYER_FROM_OTHER_TEAM_FAILURE,
-  payload: errorMessage,
-});
-
-export const fetchCurrentTeamStart = (playerDocRef) => ({
-  type: PlayersActionTypes.FETCH_CURRENT_TEAM_START,
-  payload: playerDocRef,
-});
-
-export const fetchCurrentTeamSuccess = () => ({
-  type: PlayersActionTypes.FETCH_CURRENT_TEAM_SUCCESS,
-});
-
-export const fetchCurrentTeamFailure = (errorMessage) => ({
-  type: PlayersActionTypes.FETCH_CURRENT_TEAM_FAILURE,
   payload: errorMessage,
 });

@@ -57,7 +57,7 @@ const AddPlayer = ({ fetchPlayersStart }) => {
 
   useEffect(() => {
     setId(generateId());
-    setTeam([]);
+    setTeam("");
   }, []);
 
   const classes = useStyles();
@@ -71,7 +71,7 @@ const AddPlayer = ({ fetchPlayersStart }) => {
     } else {
       const newPlayer = { nickName, fullName, country, id, logoLink, team };
       await addNewPlayer(newPlayer);
-      fetchPlayersStart();
+      await fetchPlayersStart();
 
       toast.success(`Player ${nickName} successfuly added`);
       setAlert(null);

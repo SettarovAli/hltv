@@ -14,10 +14,7 @@ import {
   chooseTeamFailure,
 } from "./teamsActions";
 
-import {
-  fetchPlayersStart,
-  fetchCurrentTeamStart,
-} from "../players/playersActions";
+import { fetchPlayersStart } from "../players/playersActions";
 
 export const convertTeamsSnapshotToMap = function* (teamsRef) {
   const teams = yield teamsRef
@@ -97,7 +94,6 @@ export function* chooseTeam(action) {
     yield put(chooseTeamSuccess());
     yield put(fetchTeamsStart());
     yield put(fetchPlayersStart());
-    yield put(fetchCurrentTeamStart(playerDocRef));
   } catch (error) {
     yield put(chooseTeamFailure(error.message));
   }

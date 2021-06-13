@@ -85,6 +85,31 @@ export const addNewPlayer = async (playerInfo, additionalData) => {
   return docRef;
 };
 
+export const addNewMatch = async (matchInfo, additionalData) => {
+  const docRef = firestore.collection("matches").doc(`${matchInfo.id}`);
+  const snapShot = await docRef.get();
+
+  if (!snapShot.exists) {
+    const { team1, team2, date, id } = matchInfo;
+    const createdAt = new Date();
+
+    try {
+      await docRef.set({
+        team1,
+        team2,
+        date,
+        id,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log("Error creating match", error.message);
+    }
+  }
+
+  return docRef;
+};
+
 export const convertPlayersSnapshotToMap = (players) => {
   const transformedPlayers = players.docs.map((doc) => {
     const { country, fullName, nickName, id, logoLink, team } = doc.data();

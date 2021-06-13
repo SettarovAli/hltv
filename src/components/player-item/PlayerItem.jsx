@@ -47,7 +47,9 @@ const PlayerItem = ({ player, deletePlayerStart, teams }) => {
         <PlayerNickname>{nickName}</PlayerNickname>
       </PlayerItemLink>
 
-      <LogoImage src={teams[currentTeam].logoLink} alt="Logo" />
+      {currentTeam ? (
+        <LogoImage src={teams[currentTeam].logoLink} alt="Logo" />
+      ) : null}
 
       <Route
         path="/admin"

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const MatchItemContainer = styled.div`
   display: flex;
@@ -32,4 +33,16 @@ export const Time = styled.div`
 export const ScoreContainer = styled.div`
   flex: 0 0 auto;
   text-align: right;
+`;
+
+export const MatchItemLink = styled(Link)`
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  text-decoration: none;
+  color: #2d6da3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
 `;
